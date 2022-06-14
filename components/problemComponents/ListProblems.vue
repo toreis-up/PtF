@@ -3,7 +3,7 @@
     <v-container>
       <v-btn @click="getProblems">取得</v-btn>
       <v-data-table :headers="listHeader" :items="problems" no-data-text="データがありません。">
-        <template v-slot:item.name="props">
+        <template v-slot:[`item.name`]="props">
           <v-btn :href=props.item.url target="_blank" text>{{props.item.name}}</v-btn>
         </template>
       </v-data-table>
