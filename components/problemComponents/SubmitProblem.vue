@@ -9,7 +9,7 @@
               <v-card-text>
                 <v-text-field
                     v-model="subject"
-                    label="例) 高専太郎"
+                    label="例) 基礎数学Ⅰ"
                     single-line
                     clear-icon="mdi-close-circle"
                     clearable
