@@ -5,23 +5,35 @@
         <v-row>
           <v-col cols="12" md="4">
             <v-card>
-              <v-card-subtitle> 教科 </v-card-subtitle>
+              <v-card-title> 教科 </v-card-title>
               <v-card-text>
-                <v-text-field v-model="subject_name"></v-text-field>
+                <v-text-field
+                    v-model="subject"
+                    label="例) 高専太郎"
+                    single-line
+                    clear-icon="mdi-close-circle"
+                    clearable
+                    @click:clear="clearSubject"></v-text-field>
               </v-card-text>
             </v-card>
           </v-col>
           <v-col cols="12" md="4">
             <v-card>
-              <v-card-subtitle> 年度 </v-card-subtitle>
+              <v-card-title> 年度 </v-card-title>
               <v-card-text>
-                <v-text-field v-model="year"></v-text-field>
+                <v-text-field
+                v-model="year"
+                label="例) 令和4年度"
+                single-line
+                clear-icon="mdi-close-circle"
+                clearable
+                @click:clear="clearYear"></v-text-field>
               </v-card-text>
             </v-card>
           </v-col>
           <v-col cols="12" md="4">
             <v-card>
-              <v-card-subtitle> 学年 </v-card-subtitle>
+              <v-card-title> 学年 </v-card-title>
               <v-card-text>
                <v-radio-group row v-model="grade_school">
                 <v-radio v-for="gra in grade" :key="gra.name" :label="gra.name" :value="gra.val"></v-radio>
@@ -31,7 +43,7 @@
           </v-col>
           <v-col cols="12" md="4">
             <v-card>
-              <v-card-subtitle> 中間 or 期末 </v-card-subtitle>
+              <v-card-title> 中間 or 期末 </v-card-title>
               <v-card-text>
                 <v-radio-group row v-model="CorK">
                   <v-radio v-for="btn in buttons" :key="btn.name" :label="btn.name" :value="btn.val"></v-radio>
@@ -41,9 +53,15 @@
           </v-col>
           <v-col cols="12" md="4">
             <v-card>
-              <v-card-subtitle> 教員名 </v-card-subtitle>
+              <v-card-title> 教員名 </v-card-title>
               <v-card-text>
-                <v-text-field v-model="staff_name"></v-text-field>
+                <v-text-field
+                v-model="staff_name"
+                label="例) 高専太郎"
+                single-line
+                clear-icon="mdi-close-circle"
+                clearable
+                @click:clear="clearStaff"></v-text-field>
               </v-card-text>
             </v-card>
           </v-col>
@@ -57,7 +75,7 @@
 export default {
     data(){
       return {
-      subject_name: "",
+      subject: "",
       year: "",
       grade_school: 1,
       grade: [
@@ -74,7 +92,18 @@ export default {
         {name: "期末", val: "kimatsu"}
       ]
       }
-    }
+    },
+  methods: {
+    clearSubject () {
+      this.subject = ''
+    },
+    clearYear () {
+      this.year = ''
+    },
+    clearStaff () {
+      this.staff_name = ''
+    },
+  }
 }
 </script>
 
