@@ -3,6 +3,12 @@
     <v-form>
       <v-container>
         <v-row>
+          <v-col cols="12">
+            <v-card>
+              <v-card-title> PDFファイル アップロード</v-card-title>
+              <UploadList :urldownload="download"></UploadList>
+            </v-card>
+          </v-col>
           <v-col cols="12" md="4">
             <v-card>
               <v-card-title> 教科 </v-card-title>
@@ -72,38 +78,42 @@
 </template>
 
 <script>
+import UploadList from './UploadList.vue'
 export default {
-    data(){
-      return {
-      subject: "",
-      year: "",
-      grade_school: 1,
-      grade: [
-        {name: "1年", val: "1"},
-        {name: "2年", val: "2"},
-        {name: "3年", val: "3"},
-        {name: "4年", val: "4"},
-        {name: "5年", val: "5"}
-      ],
-      staff_name: "",
-      CorK: 1,
-      buttons:[
-        {name: "中間", val: "chukan"},
-        {name: "期末", val: "kimatsu"}
-      ]
-      }
+    data() {
+        return {
+            urldownload: "",
+            download: "",
+            subject: "",
+            year: "",
+            grade_school: 1,
+            grade: [
+                { name: "1年", val: "1" },
+                { name: "2年", val: "2" },
+                { name: "3年", val: "3" },
+                { name: "4年", val: "4" },
+                { name: "5年", val: "5" }
+            ],
+            staff_name: "",
+            CorK: 1,
+            buttons: [
+                { name: "中間", val: "chukan" },
+                { name: "期末", val: "kimatsu" }
+            ]
+        };
     },
-  methods: {
-    clearSubject () {
-      this.subject = ''
+    methods: {
+        clearSubject() {
+            this.subject = "";
+        },
+        clearYear() {
+            this.year = "";
+        },
+        clearStaff() {
+            this.staff_name = "";
+        },
     },
-    clearYear () {
-      this.year = ''
-    },
-    clearStaff () {
-      this.staff_name = ''
-    },
-  }
+    components: { UploadList }
 }
 </script>
 
