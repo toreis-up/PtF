@@ -16,8 +16,8 @@
                 <v-text-field
                   v-model="subject_name"
                   placeholder="例) 基礎数学Ⅰ"
-                  clear-icon="mdi-close-circle"
                   outlined
+                  clear-icon="mdi-close-circle"
                   clearable
                   @click:clear="clearSubject"
                 ></v-text-field>
@@ -31,8 +31,8 @@
                 <v-text-field
                   v-model="year"
                   placeholder="例) 令和4年度"
-                  clear-icon="mdi-close-circle"
                   outlined
+                  clear-icon="mdi-close-circle"
                   clearable
                   @click:clear="clearYear"
                 ></v-text-field>
@@ -76,8 +76,8 @@
                 <v-text-field
                   v-model="staff_name"
                   placeholder="例) 高専太郎"
-                  clear-icon="mdi-close-circle"
                   outlined
+                  clear-icon="mdi-close-circle"
                   clearable
                   @click:clear="clearStaff"
                 ></v-text-field>
