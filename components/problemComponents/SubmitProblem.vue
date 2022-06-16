@@ -6,7 +6,7 @@
           <v-col cols="12">
             <v-card>
               <v-card-title> PDFファイル アップロード</v-card-title>
-              <UploadList :urldownload="download"></UploadList>
+              <UploadList :downloadLink="downloadURL"></UploadList>
             </v-card>
           </v-col>
           <v-col cols="12" md="4">
@@ -104,6 +104,7 @@ import { addDoc, collection, getFirestore } from "@firebase/firestore";
 export default {
   data() {
     return {
+      downloadURL: "",
       subject_name: "",
       year: "",
       grade_school: 1,
@@ -164,8 +165,8 @@ export default {
     clearStaff() {
       this.staff_name = "";
     },
-    components: { UploadList },
   },
+  components: { UploadList },
 };
 </script>
 
