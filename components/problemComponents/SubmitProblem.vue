@@ -3,43 +3,43 @@
     <v-form>
       <v-container>
         <v-row>
-          <v-col cols="12">
+          <v-col cols="12" md="8">
             <v-card>
               <v-card-title> PDFファイル アップロード</v-card-title>
               <UploadList :downloadLink="downloadURL"></UploadList>
             </v-card>
           </v-col>
-          <v-col cols="12" md="4">
+          <v-col cols="12" md="8">
             <v-card>
               <v-card-title> 教科 </v-card-title>
               <v-card-text>
                 <v-text-field
                   v-model="subject_name"
-                  label="例) 基礎数学Ⅰ"
-                  single-line
+                  placeholder="例) 基礎数学Ⅰ"
                   clear-icon="mdi-close-circle"
+                  outlined
                   clearable
                   @click:clear="clearSubject"
                 ></v-text-field>
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col cols="12" md="4">
+          <v-col cols="12" md="8">
             <v-card>
               <v-card-title> 年度 </v-card-title>
               <v-card-text>
                 <v-text-field
                   v-model="year"
-                  label="例) 令和4年度"
-                  single-line
+                  placeholder="例) 令和4年度"
                   clear-icon="mdi-close-circle"
+                  outlined
                   clearable
                   @click:clear="clearYear"
                 ></v-text-field>
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col cols="12" md="4">
+          <v-col cols="12" md="8">
             <v-card>
               <v-card-title> 学年 </v-card-title>
               <v-card-text>
@@ -54,7 +54,7 @@
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col cols="12" md="4">
+          <v-col cols="12" md="8">
             <v-card>
               <v-card-title> 中間 or 期末 </v-card-title>
               <v-card-text>
@@ -69,15 +69,15 @@
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col cols="12" md="4">
+          <v-col cols="12" md="8">
             <v-card>
               <v-card-title> 教員名 </v-card-title>
               <v-card-text>
                 <v-text-field
                   v-model="staff_name"
-                  label="例) 高専太郎"
-                  single-line
+                  placeholder="例) 高専太郎"
                   clear-icon="mdi-close-circle"
+                  outlined
                   clearable
                   @click:clear="clearStaff"
                 ></v-text-field>
@@ -87,12 +87,19 @@
           <v-row>
             <v-col>
               <v-card height="100%">
-                <v-card-title>てすｔｐ</v-card-title>
+                <v-card-title>てすと</v-card-title>
               </v-card>
             </v-col>
           </v-row>
         </v-row>
-        <v-btn :disabled="TorF" @click="upload"> 登録 </v-btn>
+        <v-btn 
+        :disabled="loading"
+        :loading="loading"
+        large
+        outlined
+        @click="upload">
+        登録 <v-icon right> mdi-cloud-upload </v-icon>
+        </v-btn>
       </v-container>
     </v-form>
   </section>
@@ -121,12 +128,12 @@ export default {
         { name: "中間", val: "chukan" },
         { name: "期末", val: "kimatsu" },
       ],
-      TorF: false,
+      loading: false,
     };
   },
   methods: {
     async upload() {
-      this.TorF = true;
+      this.loading = true;
       const db = await getFirestore();
       const probColRef = await collection(db, "problems");
       const probDocRef = await addDoc(probColRef, {
@@ -143,10 +150,10 @@ export default {
           this.clearGrade();
           this.clearCorK();
           this.clearStaff();
-          this.TorF = false;
+          this.loading = false;
         })
         .catch(() => {
-          this.TorF = false;
+          this.loading = false;
         });
     },
 

@@ -1,6 +1,11 @@
 <template>
   <section>
-    <v-file-input accept=".pdf" label="PDFをアップロード" @change="onFileUpload" clearable></v-file-input>
+    <v-file-input
+    accept=".pdf"
+    placeholder="PDFをアップロード"
+    outlined
+    @change="onFileUpload"
+    clearable></v-file-input>
   </section>
 </template>
 
