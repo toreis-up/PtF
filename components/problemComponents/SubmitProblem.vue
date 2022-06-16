@@ -3,68 +3,102 @@
     <v-form>
       <v-container>
         <v-row>
-          <v-col cols="12" md="4">
-            <v-card>
-              <v-card-title> 教科 </v-card-title>
-              <v-card-text>
-                <v-text-field
-                    v-model="subject"
-                    label="例) 基礎数学Ⅰ"
-                    single-line
-                    clear-icon="mdi-close-circle"
-                    clearable
-                    @click:clear="clearSubject"></v-text-field>
-              </v-card-text>
-            </v-card>
+          <v-col cols="12" md="7">
+            <v-row>
+              <v-col cols="12">
+                <v-card>
+                  <v-card-title>PDFファイル アップロード</v-card-title>
+                  <v-card-text>
+                    <UploadFile_Ans :downloadLink="urlDownload"></UploadFile_Ans
+                  ></v-card-text>
+                </v-card>
+              </v-col>
+            </v-row>
+            <v-row align-content="center" align-content-md="center">
+              <v-col cols="12">
+                <v-card>
+                  <v-card-title> 教科 </v-card-title>
+                  <v-card-text>
+                    <v-text-field
+                      v-model="subject"
+                      label="例) 基礎数学Ⅰ"
+                      single-line
+                      clear-icon="mdi-close-circle"
+                      clearable
+                      @click:clear="clearSubject"
+                    ></v-text-field>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+              <v-col cols="12">
+                <v-card>
+                  <v-card-title> 年度 </v-card-title>
+                  <v-card-text>
+                    <v-text-field
+                      v-model="year"
+                      label="例) 令和4年度"
+                      single-line
+                      clear-icon="mdi-close-circle"
+                      clearable
+                      @click:clear="clearYear"
+                    ></v-text-field>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+              <v-col cols="12">
+                <v-card>
+                  <v-card-title> 学年 </v-card-title>
+                  <v-card-text>
+                    <v-radio-group row v-model="grade_school">
+                      <v-radio
+                        v-for="gra in grade"
+                        :key="gra.name"
+                        :label="gra.name"
+                        :value="gra.val"
+                      ></v-radio>
+                    </v-radio-group>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+              <v-col cols="12">
+                <v-card>
+                  <v-card-title> 中間 or 期末 </v-card-title>
+                  <v-card-text>
+                    <v-radio-group row v-model="CorK">
+                      <v-radio
+                        v-for="btn in buttons"
+                        :key="btn.name"
+                        :label="btn.name"
+                        :value="btn.val"
+                      ></v-radio>
+                    </v-radio-group>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+              <v-col>
+                <v-card>
+                  <v-card-title> 教員名 </v-card-title>
+                  <v-card-text>
+                    <v-text-field
+                      v-model="staff_name"
+                      label="例) 高専太郎"
+                      single-line
+                      clear-icon="mdi-close-circle"
+                      clearable
+                      @click:clear="clearStaff"
+                    ></v-text-field>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+            </v-row>
           </v-col>
-          <v-col cols="12" md="4">
-            <v-card>
-              <v-card-title> 年度 </v-card-title>
-              <v-card-text>
-                <v-text-field
-                v-model="year"
-                label="例) 令和4年度"
-                single-line
-                clear-icon="mdi-close-circle"
-                clearable
-                @click:clear="clearYear"></v-text-field>
-              </v-card-text>
-            </v-card>
-          </v-col>
-          <v-col cols="12" md="4">
-            <v-card>
-              <v-card-title> 学年 </v-card-title>
-              <v-card-text>
-               <v-radio-group row v-model="grade_school">
-                <v-radio v-for="gra in grade" :key="gra.name" :label="gra.name" :value="gra.val"></v-radio>
-               </v-radio-group>
-              </v-card-text>
-            </v-card>
-          </v-col>
-          <v-col cols="12" md="4">
-            <v-card>
-              <v-card-title> 中間 or 期末 </v-card-title>
-              <v-card-text>
-                <v-radio-group row v-model="CorK">
-                  <v-radio v-for="btn in buttons" :key="btn.name" :label="btn.name" :value="btn.val"></v-radio>
-                </v-radio-group>
-              </v-card-text>
-            </v-card>
-          </v-col>
-          <v-col cols="12" md="4">
-            <v-card>
-              <v-card-title> 教員名 </v-card-title>
-              <v-card-text>
-                <v-text-field
-                v-model="staff_name"
-                label="例) 高専太郎"
-                single-line
-                clear-icon="mdi-close-circle"
-                clearable
-                @click:clear="clearStaff"></v-text-field>
-              </v-card-text>
-            </v-card>
-          </v-col>
+          <v-row>
+            <v-col>
+              <v-card height="100%">
+                <v-card-title>てすｔｐ</v-card-title>
+              </v-card>
+            </v-col>
+          </v-row>
         </v-row>
       </v-container>
     </v-form>
@@ -72,41 +106,45 @@
 </template>
 
 <script>
+import UploadFile_Ans from "./UploadFile_Ans.vue";
 export default {
-    data(){
-      return {
+  components: {
+    UploadFile_Ans,
+  },
+  data() {
+    return {
+      urlDownload: "",
       subject: "",
       year: "",
       grade_school: 1,
       grade: [
-        {name: "1年", val: "1"},
-        {name: "2年", val: "2"},
-        {name: "3年", val: "3"},
-        {name: "4年", val: "4"},
-        {name: "5年", val: "5"}
+        { name: "1年", val: "1" },
+        { name: "2年", val: "2" },
+        { name: "3年", val: "3" },
+        { name: "4年", val: "4" },
+        { name: "5年", val: "5" },
       ],
       staff_name: "",
       CorK: 1,
-      buttons:[
-        {name: "中間", val: "chukan"},
-        {name: "期末", val: "kimatsu"}
-      ]
-      }
-    },
+      buttons: [
+        { name: "中間", val: "chukan" },
+        { name: "期末", val: "kimatsu" },
+      ],
+    };
+  },
   methods: {
-    clearSubject () {
-      this.subject = ''
+    clearSubject() {
+      this.subject = "";
     },
-    clearYear () {
-      this.year = ''
+    clearYear() {
+      this.year = "";
     },
-    clearStaff () {
-      this.staff_name = ''
+    clearStaff() {
+      this.staff_name = "";
     },
-  }
-}
+  },
+};
 </script>
 
 <style>
-
 </style>
