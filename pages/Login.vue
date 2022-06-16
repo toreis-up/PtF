@@ -1,14 +1,13 @@
 <template>
-<div>
-    <Tutorial />
+  <div>
     <UserLogin />
-</div>
+  </div>
 </template>
 
 <script>
-  import UserLogin from '../components/UserLogin.vue'
-  export default {
-    name: 'IndexPage',
-    componets: { UserLogin }
-  }
+import UserLogin from "../components/UserLogin.vue";
+export default {
+  name: "IndexPage",
+  componets: { UserLogin },
+};
 </script>
