@@ -14,7 +14,7 @@
               <v-card-title> 教科 </v-card-title>
               <v-card-text>
                 <v-text-field
-                    v-model="subject"
+                    v-model="subject_name"
                     label="例) 基礎数学Ⅰ"
                     single-line
                     clear-icon="mdi-close-circle"
@@ -72,6 +72,9 @@
             </v-card>
           </v-col>
         </v-row>
+        <v-btn
+        :disabled="TorF"
+        @click="upload"> 登録 </v-btn>
       </v-container>
     </v-form>
   </section>
@@ -79,41 +82,70 @@
 
 <script>
 import UploadList from './UploadList.vue'
+import { addDoc, collection, getFirestore } from '@firebase/firestore'
 export default {
-    data() {
-        return {
-            urldownload: "",
-            download: "",
-            subject: "",
-            year: "",
-            grade_school: 1,
-            grade: [
-                { name: "1年", val: "1" },
-                { name: "2年", val: "2" },
-                { name: "3年", val: "3" },
-                { name: "4年", val: "4" },
-                { name: "5年", val: "5" }
-            ],
-            staff_name: "",
-            CorK: 1,
-            buttons: [
-                { name: "中間", val: "chukan" },
-                { name: "期末", val: "kimatsu" }
-            ]
-        };
+    data(){
+      return {
+        subject_name: "",
+        year: "",
+        grade_school: 1,
+        grade: [
+          {name: "1年", val: "1"},
+          {name: "2年", val: "2"},
+          {name: "3年", val: "3"},
+          {name: "4年", val: "4"},
+          {name: "5年", val: "5"}
+        ],
+        staff_name: "",
+        CorK: 1,
+        buttons:[
+          {name: "中間", val: "chukan"},
+          {name: "期末", val: "kimatsu"}
+        ],
+        TorF: false,
+      }
     },
-    methods: {
-        clearSubject() {
-            this.subject = "";
-        },
-        clearYear() {
-            this.year = "";
-        },
-        clearStaff() {
-            this.staff_name = "";
-        },
+  methods: {
+    async upload (){
+      this.TorF = true;
+      const db = await getFirestore();
+      const probColRef = await collection(db, "problems");
+      const probDocRef = await addDoc(probColRef, { name: "pdfname",
+                                                                             Subject: this.subject_name,
+                                                                             Year: this.year,
+                                                                             Grade: this.grade_school,
+                                                                             C_or_K: this.CorK,
+                                                                             Staff_name: this.staff_name}).then(() => {
+                                                                                                                            this.clearSubject();
+                                                                                                                            this.clearYear();
+                                                                                                                            this.clearGrade();
+                                                                                                                            this.clearCorK();
+                                                                                                                            this.clearStaff();
+                                                                                                                            this.TorF = false;
+                                                                                                                          }).catch(() => {
+                                                                                                                            this.TorF = false;
+                                                                                                                          });
+    },
+
+    clearSubject () {
+      this.subject_name = ''
+    },
+    clearYear () {
+      this.year = ''
+    },
+    clearGrade () {
+      this.grade_school = ""
+    },
+    clearCorK () {
+      this.CorK = ""
+    },
+    clearStaff () {
+      this.staff_name = ''
     },
     components: { UploadList }
+
+  }
+
 }
 </script>
 
