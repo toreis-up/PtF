@@ -1,7 +1,7 @@
 <template>
     <section>
         <v-container>
-            <v-btn @click="login">ログイン</v-btn>
+            <v-btn block @click="login">ログイン</v-btn>
         </v-container>
     </section>
 </template>

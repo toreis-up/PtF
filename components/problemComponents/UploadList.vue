@@ -19,7 +19,7 @@
         onFileUpload (file) {
             const storage = getStorage();
             if(file === null){
-                const deteteTask = deleteObject(this.problemRef)
+                const deleteTask = deleteObject(this.problemRef);
             }
             else{
                 this.problemRef = ref(storage, 'problems/' +file.name);

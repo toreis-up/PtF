@@ -2,17 +2,22 @@
   <section>
     <v-container>
       <v-btn @click="getProblems">取得</v-btn>
-      <v-data-table
-        :headers="listHeader"
-        :items="problems"
-        no-data-text="データがありません。"
-      >
+      <v-data-table :headers="listHeader" :items="problems" no-data-text="データがありません。">
         <template v-slot:[`item.name`]="props">
           <v-btn :href="props.item.url" target="_blank" text>{{
             props.item.name
-          }}</v-btn>
+            }}</v-btn>
         </template>
       </v-data-table>
+      <v-card>
+        <v-card-title>
+          検索欄
+          <v-spacer></v-spacer>
+          <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details>
+          </v-text-field>
+        </v-card-title>
+        <v-data-table :headers="listHeader" :items="problems" :search="search"></v-data-table>
+      </v-card>
     </v-container>
   </section>
 </template>
@@ -29,6 +34,7 @@ import {
 export default {
   data() {
     return {
+      search: '',
       listHeader: [
         { text: "pdf名", value: "name" },
         { text: "担当教員", value: "teacher" },
