@@ -113,6 +113,9 @@ export default {
       rightDrawer: false,
       title: 'Vuetify.js'
     }
+  },
+  mounted: () => {
+    this.$store.commit('setUser', this.$ls.get('authUser'))
   }
 }
 </script>

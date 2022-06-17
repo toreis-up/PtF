@@ -16,9 +16,8 @@
             const auth  = getAuth();
             signInWithPopup(auth, provider)
             .then((result) => {
-                const credential = OAuthProvider.credentialFromResult(result);
-                const accessToken = credential.accessToken;
-                const idToken = credential.idToken;
+                this.$store.commit('setUser', result)
+                this.$router.push('/')
             })
         .catch((error) => {
         // handle error.
