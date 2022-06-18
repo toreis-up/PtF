@@ -1,41 +1,39 @@
 <template>
-    <div>
-        <pdf
-            v-for="i in numPages"
-            :key="i"
-            :src="src"
-            :page="i"
-            style="display: inline-block; width: 25%"
-        ></pdf>
-    </div>
+  <div>
+    <client-only>
+      <button @click="prevPage">戻る</button>
+      <button @click="nextPage">次へ</button>
+      {{ currentPageNum }} / {{ totalPageNum }}
+      <vue-pdf
+        :src="pdfUrl"
+        :page="currentPageNum"
+        @num-pages="totalPageNum = $event"
+      />
+    </client-only>
+  </div>
 </template>
 
-<script>
-import pdf from 'vue-pdf'
-import {
-  getStorage,
-  ref,
-  uploadBytes,
-  deleteObject,
-  getDownloadURL,
-} from "firebase/storage";
-
-var loadingTask = pdf.createLoadingTask('problem/');
-
-export default {
-    components: {
-        pdf
+<script lang="ts">
+import Vue from 'vue'
+export default Vue.extend({
+  data: () => ({
+    pdfUrl: '/slide.pdf',
+    currentPageNum: 1,
+    totalPageNum: 0,
+  }),
+  methods: {
+    prevPage() {
+      if (this.currentPageNum <= 1) {
+        return
+      }
+      this.currentPageNum = this.currentPageNum - 1
     },
-    data() {
-        return {
-            src: loadingTask,
-            numPages: undefined,
-        }
+    nextPage() {
+      if (this.currentPageNum >= this.totalPageNum) {
+        return
+      }
+      this.currentPageNum = this.currentPageNum + 1
     },
-    mounted() {
-        this.src.promise.then(pdf => {
-            this.numPages = pdf.numPages;
-        });
-    }
-}
+  },
+})
 </script>
