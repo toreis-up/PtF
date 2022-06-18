@@ -51,7 +51,10 @@ export default {
     onFileUpload(file) {
       const storage = getStorage();
       if (!file) {
-        const deleteTask = deleteObject(this.problemRef);
+        if (file === null && !this.fname) {
+          console.log("deleting");
+          const deleteTask = deleteObject(this.problemRef);
+        }
       } else {
         console.log(file);
         this.problemRef = ref(storage, "problems/" + file.name);
@@ -60,7 +63,8 @@ export default {
           .then((link) => {
             this.url = link;
             this.fname = file.name;
-          });
+          })
+          .catch((err) => console.log(err));
       }
     },
   },

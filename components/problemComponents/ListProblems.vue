@@ -31,9 +31,11 @@ export default {
     return {
       listHeader: [
         { text: "pdf名", value: "name" },
-        { text: "担当教員", value: "teacher" },
-        { text: "学年", value: "grade" },
-        { text: "年度", value: "year" },
+        { text: "教科名", value: "Subject" },
+        { text: "担当教員", value: "Staff_name" },
+        { text: "学年", value: "Grade" },
+        { text: "年度", value: "Year" },
+        { text: "開催期", value: "C_or_K" },
       ],
       problems: [],
     };
@@ -48,6 +50,9 @@ export default {
         else this.problems.push(doc.data());
       });
     },
+  },
+  mounted() {
+    this.getProblems();
   },
 };
 </script>
