@@ -3,7 +3,7 @@
         <v-app dark>
             <v-app-bar dark>
                 <v-app-bar-nav-icon />
-                <v-toolbar-title>Title</v-toolbar-title>
+                <v-toolbar-title>Past to Future</v-toolbar-title>
                 <v-spacer />
                 <v-btn icon to="/login">
                     ログイン

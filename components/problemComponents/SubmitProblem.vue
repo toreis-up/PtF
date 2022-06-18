@@ -85,13 +85,6 @@
               </v-card-text>
             </v-card>
           </v-col>
-          <v-row>
-            <v-col>
-              <v-card height="100%">
-                <v-card-title>てすｔｐ</v-card-title>
-              </v-card>
-            </v-col>
-          </v-row>
         </v-row>
         <v-btn
           :disabled="!valid"

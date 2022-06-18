@@ -9,14 +9,13 @@
           <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details>
           </v-text-field>
         </v-card-title>
-      <v-data-table :headers="listHeader" :items="problems" no-data-text="データがありません。">
-        <template v-slot:[`item.name`]="props">
-          <v-btn :href="props.item.url" target="_blank" text>{{
-            props.item.name
-            }}</v-btn>
-          <PDFView PDFView="props.item.url"></PDFView>
-        </template>
-      </v-data-table>
+        <v-data-table :headers="listHeader" :items="problems" no-data-text="データがありません。">
+          <template v-slot:[`item.name`]="props">
+            <v-btn :href="props.item.url" target="_blank" text>{{
+              props.item.name
+              }}</v-btn>
+          </template>
+        </v-data-table>
       </v-card>
     </v-container>
   </section>
@@ -31,7 +30,6 @@ import {
   getDocs,
   query,
 } from "firebase/firestore";
-import PDFView from "./PDFView.vue";
 export default {
     data() {
         return {
@@ -58,7 +56,6 @@ export default {
             });
         },
     },
-    components: { PDFView }
 };
 </script>
 

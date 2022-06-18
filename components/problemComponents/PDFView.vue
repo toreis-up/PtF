@@ -1,6 +1,13 @@
 <template>
   <div>
-      <vue-pdf :src="pdfURL"></vue-pdf>
+    <v-container>
+      <v-row>
+        <v-col cols="8">
+          <vue-pdf :src="pdfUrl"></vue-pdf>
+        </v-col>
+      </v-row>
+
+    </v-container>
   </div>
 </template>
 
