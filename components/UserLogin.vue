@@ -1,17 +1,9 @@
 <template>
-<<<<<<< HEAD
-    <section>
-        <v-container>
-            <v-btn block @click="login">ログイン</v-btn>
-        </v-container>
-    </section>
-=======
   <section>
     <v-container>
-      <v-btn @click="login">ログイン</v-btn>
+      <v-btn block @click="login">ログイン</v-btn>
     </v-container>
   </section>
->>>>>>> fixerTos
 </template>
 
 <script>
