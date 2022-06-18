@@ -24,6 +24,8 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
+<<<<<<< HEAD
+=======
     <v-app-bar :clipped-left="clipped" fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-btn icon @click.stop="miniVariant = !miniVariant">
@@ -41,9 +43,12 @@
         <v-icon>mdi-menu</v-icon>
       </v-btn>
     </v-app-bar>
+>>>>>>> fixerTos
     <v-main>
-      <v-container>
-        <Nuxt />
+      <v-container fluid>
+        <Navbar>
+          <Nuxt />
+        </Navbar>
       </v-container>
     </v-main>
     <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
@@ -63,7 +68,36 @@
 </template>
 
 <script>
+import Navbar from '../components/problemComponents/Navbar.vue';
 export default {
+<<<<<<< HEAD
+    name: "DefaultLayout",
+    data() {
+        return {
+            clipped: false,
+            drawer: false,
+            fixed: false,
+            items: [
+                {
+                    icon: "mdi-apps",
+                    title: "Welcome",
+                    to: "/"
+                },
+                {
+                    icon: "mdi-chart-bubble",
+                    title: "Inspire",
+                    to: "/inspire"
+                }
+            ],
+            miniVariant: false,
+            right: true,
+            rightDrawer: false,
+            title: "Vuetify.js"
+        };
+    },
+    components: { Navbar }
+}
+=======
   name: "DefaultLayout",
   data() {
     return {
@@ -89,4 +123,5 @@ export default {
     };
   },
 };
+>>>>>>> fixerTos
 </script>

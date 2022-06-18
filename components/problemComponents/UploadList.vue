@@ -40,8 +40,6 @@ export default {
     },
     fname: {
       get() {
-        return this.filename;
-      },
       set(newVal) {
         this.$emit("changeFilename", newVal);
       },
@@ -49,7 +47,6 @@ export default {
   },
   methods: {
     onFileUpload(file) {
-      const storage = getStorage();
       if (!file) {
         if (file === null && !this.fname) {
           console.log("deleting");

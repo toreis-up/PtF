@@ -1,6 +1,7 @@
 <template>
   <div>
     <ListProblems />
+    <PDFView />
     <SubmitProblem />
   </div>
 </template>
@@ -8,8 +9,13 @@
 <script>
 import SubmitProblem from "../components/problemComponents/SubmitProblem.vue";
 import ListProblems from "../components/problemComponents/ListProblems.vue";
+import PDFView from "../components/problemComponents/PDFView.vue";
+//undefined
 export default {
   name: "IndexPage",
+<<<<<<< HEAD
+  components: { ListProblems, SubmitProblem, PDFView },
+=======
   components: { ListProblems, SubmitProblem },
 
   middleware: "auth",
@@ -33,5 +39,6 @@ export default {
       this.$router.push("/login");
     }
   },
+>>>>>>> fixerTos
 };
 </script>

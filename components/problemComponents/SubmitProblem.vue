@@ -8,9 +8,13 @@
               <v-card-title> PDFファイル アップロード</v-card-title>
               <UploadList
                 @changeDLLink="setDLLink"
+<<<<<<< HEAD
+                :downloadLink="downloadURL"
+=======
                 @changeFilename="setFilename"
                 :downloadLink="downloadURL"
                 :filename="pdfname"
+>>>>>>> fixerTos
               ></UploadList>
             </v-card>
           </v-col>
@@ -90,6 +94,11 @@
               </v-card-text>
             </v-card>
           </v-col>
+<<<<<<< HEAD
+        </v-row>
+        <v-btn
+          :disabled="!valid"
+=======
           <v-row>
             <v-col>
               <v-card height="100%">
@@ -101,6 +110,7 @@
 
         <v-btn
           :disabled="!valid || loading"
+>>>>>>> fixerTos
           :loading="loading"
           color="info"
           large
@@ -127,7 +137,10 @@ export default {
       grade_school: "",
       grades: ["1年", "2年", "3年", "4年", "5年"],
       staff_name: "",
+<<<<<<< HEAD
+=======
       pdfname: "",
+>>>>>>> fixerTos
       CorK: "",
       cork: ["中間", "期末"],
       loading: false,
@@ -143,25 +156,48 @@ export default {
         const db = await getFirestore();
         const probColRef = await collection(db, "problems");
         const probDocRef = await addDoc(probColRef, {
+<<<<<<< HEAD
+          name: "pdfname",
+=======
           name: this.pdfname,
+>>>>>>> fixerTos
           Subject: this.subject_name,
           Year: this.year,
           Grade: this.grade_school,
           C_or_K: this.CorK,
           Staff_name: this.staff_name,
+<<<<<<< HEAD
+        })
+          .then(() => {
+            this.clearSubject();
+            this.clearYear();
+            this.clearGrade();
+            this.clearCorK();
+            this.clearStaff();
+=======
           url: this.downloadURL,
         })
           .then(() => {
             this.$refs.form.reset();
+>>>>>>> fixerTos
             this.loading = false;
           })
           .catch(() => {
             this.loading = false;
+<<<<<<< HEAD
+          });
+      }
+    },
+
+    setDLLink(newVal) {
+      this.downloadURL = newVal;
+=======
           })
           .then(() => {
             this.$router.push("/list");
           });
       }
+>>>>>>> fixerTos
     },
 
     setDLLink(newVal) {
