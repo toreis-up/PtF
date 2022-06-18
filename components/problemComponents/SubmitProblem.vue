@@ -1,9 +1,12 @@
 <template>
   <section>
-    <v-form ref="form" v-model="valid" lazy-validation>
+    <v-form
+    ref="form"
+    v-model="valid"
+    lazy-validation>
       <v-container>
         <v-row>
-          <v-col cols="12" md="4">
+          <v-col cols="12" md="8">
             <v-card>
               <v-card-title> PDFファイル アップロード</v-card-title>
               <UploadList
@@ -16,63 +19,98 @@
             <v-card>
               <v-card-title> 教科 </v-card-title>
               <v-card-text>
-                <v-text-field v-model="subject_name"></v-text-field>
+                <v-text-field
+                  v-model="subject_name"
+                  placeholder="例) 基礎数学Ⅰ"
+                  outlined
+                  :rules="[Rules.required]"
+                  required
+                  clear-icon="mdi-close-circle"
+                  clearable
+                ></v-text-field>
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col cols="12" md="4">
+          <v-col cols="12" md="8">
             <v-card>
-              <v-card-subtitle> 年度 </v-card-subtitle>
+              <v-card-title> 年度 </v-card-title>
               <v-card-text>
-                <v-text-field v-model="year"></v-text-field>
+                <v-text-field
+                  v-model="year"
+                  placeholder="例) 令和4年度"
+                  outlined
+                  :rules="[Rules.required]"
+                  required
+                  clear-icon="mdi-close-circle"
+                  clearable
+                ></v-text-field>
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col cols="12" md="4">
+          <v-col cols="12" md="8">
             <v-card>
-              <v-card-subtitle> 学年 </v-card-subtitle>
+              <v-card-title> 学年 </v-card-title>
               <v-card-text>
                 <v-select
-                  v-model="grade_school"
-                  :items="grades"
-                  :rules="[Rules.required]"
-                  placeholder="学年"
-                  required
-                ></v-select>
+
+                v-model="grade_school"
+                :items="grades"
+                :rules="[Rules.required]"
+                placeholder="学年"
+                required></v-select>
+
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col cols="12" md="4">
+          <v-col cols="12" md="8">
             <v-card>
-              <v-card-subtitle> 中間 or 期末 </v-card-subtitle>
+              <v-card-title> 中間 or 期末 </v-card-title>
               <v-card-text>
                 <v-select
-                  v-model="CorK"
-                  :items="cork"
-                  :rules="[Rules.required]"
-                  placeholder="中間 or 期末"
-                  required
-                ></v-select>
+
+                v-model="CorK"
+                :items="cork"
+                :rules="[Rules.required]"
+                placeholder="中間 or 期末"
+                required></v-select>
+
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col cols="12" md="4">
+          <v-col cols="12" md="8">
             <v-card>
-              <v-card-subtitle> 教員名 </v-card-subtitle>
+              <v-card-title> 教員名 </v-card-title>
               <v-card-text>
-                <v-text-field v-model="staff_name"></v-text-field>
+                <v-text-field
+                  v-model="staff_name"
+                  placeholder="例) 高専太郎"
+                  outlined
+                  :rules="[Rules.required]"
+                  required
+                  clear-icon="mdi-close-circle"
+                  clearable
+                ></v-text-field>
               </v-card-text>
             </v-card>
           </v-col>
+          <v-row>
+            <v-col>
+              <v-card height="100%">
+                <v-card-title>てすと</v-card-title>
+              </v-card>
+            </v-col>
+          </v-row>
         </v-row>
-        <v-btn
-          :disabled="!valid"
-          :loading="loading"
-          color="info"
-          large
-          @click="upload"
-        >
-          登録 <v-icon right> mdi-cloud-upload </v-icon>
+
+
+        <v-btn 
+        :disabled="!valid"
+        :loading="loading"
+        color="info"
+        large
+        @click="upload">
+        登録 <v-icon right> mdi-cloud-upload </v-icon>
+
         </v-btn>
       </v-container>
     </v-form>
@@ -80,24 +118,31 @@
 </template>
 
 <script>
+import UploadList from "./UploadList.vue";
+import { addDoc, collection, getFirestore } from "@firebase/firestore";
+
 export default {
   data() {
     return {
+
+      valid: true,
+      downloadURL: "",
       subject_name: "",
       year: "",
       grade_school: "",
-      grades: ["1年", "2年", "3年", "4年", "5年"],
+      grades: ['1年', '2年', '3年', '4年', '5年'],
       staff_name: "",
       CorK: "",
-      cork: ["中間", "期末"],
+      cork: ['中間', '期末'],
       loading: false,
       Rules: {
-        required: (v) => !!v || "入力は必須です。",
+        required: v => !!v || '入力は必須です。',
       },
     };
   },
   methods: {
     async upload() {
+
       if (this.$refs.form.validate()) {
         this.loading = true;
         const db = await getFirestore();
@@ -143,6 +188,7 @@ export default {
     clearStaff() {
       this.staff_name = "";
     },
+
   },
   components: { UploadList },
 };

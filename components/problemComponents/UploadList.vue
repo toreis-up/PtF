@@ -1,19 +1,20 @@
 <template>
   <section>
     <v-file-input
-      accept=".pdf"
-      placeholder="PDFをアップロード"
-      outlined
-      @change="onFileUpload"
-      clear-icon="mdi-close-circle"
-      clearable
-      :rules="[(v) => !!v || 'PDFファイルは必須です。']"
-      required
-    ></v-file-input>
+
+    accept=".pdf"
+    placeholder="PDFをアップロード"
+    outlined
+    @change="onFileUpload"
+    clear-icon="mdi-close-circle"
+    clearable
+    :rules="[v => !!v || 'PDFファイルは必須です。']"
+    required></v-file-input>
   </section>
 </template>
 
 <script>
+
 import {
   getStorage,
   ref,
@@ -53,4 +54,5 @@ export default {
     },
   },
 };
+
 </script>
