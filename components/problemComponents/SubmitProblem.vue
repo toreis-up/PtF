@@ -1,9 +1,6 @@
 <template>
   <section>
-    <v-form
-    ref="form"
-    v-model="valid"
-    lazy-validation>
+    <v-form ref="form" v-model="valid" lazy-validation>
       <v-container>
         <v-row>
           <v-col cols="12" md="8">
@@ -11,7 +8,9 @@
               <v-card-title> PDFファイル アップロード</v-card-title>
               <UploadList
                 @changeDLLink="setDLLink"
+                @changeFilename="setFilename"
                 :downloadLink="downloadURL"
+                :filename="pdfname"
               ></UploadList>
             </v-card>
           </v-col>
@@ -52,13 +51,12 @@
               <v-card-title> 学年 </v-card-title>
               <v-card-text>
                 <v-select
-
-                v-model="grade_school"
-                :items="grades"
-                :rules="[Rules.required]"
-                placeholder="学年"
-                required></v-select>
-
+                  v-model="grade_school"
+                  :items="grades"
+                  :rules="[Rules.required]"
+                  placeholder="学年"
+                  required
+                ></v-select>
               </v-card-text>
             </v-card>
           </v-col>
@@ -67,13 +65,12 @@
               <v-card-title> 中間 or 期末 </v-card-title>
               <v-card-text>
                 <v-select
-
-                v-model="CorK"
-                :items="cork"
-                :rules="[Rules.required]"
-                placeholder="中間 or 期末"
-                required></v-select>
-
+                  v-model="CorK"
+                  :items="cork"
+                  :rules="[Rules.required]"
+                  placeholder="中間 or 期末"
+                  required
+                ></v-select>
               </v-card-text>
             </v-card>
           </v-col>
@@ -102,15 +99,14 @@
           </v-row>
         </v-row>
 
-
-        <v-btn 
-        :disabled="!valid || loading"
-        :loading="loading"
-        color="info"
-        large
-        @click="upload">
-        登録 <v-icon right> mdi-cloud-upload </v-icon>
-
+        <v-btn
+          :disabled="!valid || loading"
+          :loading="loading"
+          color="info"
+          large
+          @click="upload"
+        >
+          登録 <v-icon right> mdi-cloud-upload </v-icon>
         </v-btn>
       </v-container>
     </v-form>
@@ -124,39 +120,39 @@ import { addDoc, collection, getFirestore } from "@firebase/firestore";
 export default {
   data() {
     return {
-
       valid: true,
       downloadURL: "",
       subject_name: "",
       year: "",
       grade_school: "",
-      grades: ['1年', '2年', '3年', '4年', '5年'],
+      grades: ["1年", "2年", "3年", "4年", "5年"],
       staff_name: "",
+      pdfname: "",
       CorK: "",
-      cork: ['中間', '期末'],
+      cork: ["中間", "期末"],
       loading: false,
       Rules: {
-        required: v => !!v || '入力は必須です。',
+        required: (v) => !!v || "入力は必須です。",
       },
     };
   },
   methods: {
     async upload() {
-
       if (this.$refs.form.validate()) {
         this.loading = true;
         const db = await getFirestore();
         const probColRef = await collection(db, "problems");
         const probDocRef = await addDoc(probColRef, {
-          name: "pdfname",
+          name: this.pdfname,
           Subject: this.subject_name,
           Year: this.year,
           Grade: this.grade_school,
           C_or_K: this.CorK,
           Staff_name: this.staff_name,
+          url: this.downloadURL,
         })
           .then(() => {
-            this.$refs.form.reset()
+            this.$refs.form.reset();
             this.loading = false;
           })
           .catch(() => {
@@ -169,6 +165,9 @@ export default {
       this.downloadURL = newVal;
     },
 
+    setFilename(newVal) {
+      this.pdfname = newVal;
+    },
   },
   components: { UploadList },
 };

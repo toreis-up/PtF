@@ -23,7 +23,7 @@ import {
 } from "firebase/storage";
 
 export default {
-  props: ["downloadLink"],
+  props: ["downloadLink", "filename"],
   data() {
     return {
       problemRef: null,
@@ -38,6 +38,14 @@ export default {
         this.$emit("changeDLLink", newVal);
       },
     },
+    fname: {
+      get() {
+        return this.filename;
+      },
+      set(newVal) {
+        this.$emit("changeFilename", newVal);
+      },
+    },
   },
   methods: {
     onFileUpload(file) {
@@ -45,10 +53,14 @@ export default {
       if (!file) {
         const deleteTask = deleteObject(this.problemRef);
       } else {
+        console.log(file);
         this.problemRef = ref(storage, "problems/" + file.name);
         uploadBytes(this.problemRef, file)
           .then(() => getDownloadURL(this.problemRef))
-          .then((link) => (this.url = link));
+          .then((link) => {
+            this.url = link;
+            this.fname = file.name;
+          });
       }
     },
   },
