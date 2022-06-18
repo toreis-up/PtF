@@ -70,6 +70,9 @@ export default {
   mounted() {
     this.getProblems();
   },
+  mounted() {
+    this.getProblems();
+  },
 };
 </script>
 
