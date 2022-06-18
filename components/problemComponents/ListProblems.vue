@@ -14,6 +14,7 @@
           <v-btn :href="props.item.url" target="_blank" text>{{
             props.item.name
             }}</v-btn>
+          <PDFView PDFView="props.item.url"></PDFView>
         </template>
       </v-data-table>
       </v-card>
@@ -30,6 +31,7 @@ import {
   getDocs,
   query,
 } from "firebase/firestore";
+import PDFView from "./PDFView.vue";
 export default {
     data() {
         return {
@@ -56,6 +58,7 @@ export default {
             });
         },
     },
+    components: { PDFView }
 };
 </script>
 
