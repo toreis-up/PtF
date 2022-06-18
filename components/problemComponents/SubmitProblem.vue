@@ -104,7 +104,7 @@
 
 
         <v-btn 
-        :disabled="!valid && loading"
+        :disabled="!valid || loading"
         :loading="loading"
         color="info"
         large
@@ -156,11 +156,7 @@ export default {
           Staff_name: this.staff_name,
         })
           .then(() => {
-            this.clearSubject();
-            this.clearYear();
-            this.clearGrade();
-            this.clearCorK();
-            this.clearStaff();
+            this.$refs.form.reset()
             this.loading = false;
           })
           .catch(() => {
@@ -171,22 +167,6 @@ export default {
 
     setDLLink(newVal) {
       this.downloadURL = newVal;
-    },
-
-    clearSubject() {
-      this.subject_name = "";
-    },
-    clearYear() {
-      this.year = "";
-    },
-    clearGrade() {
-      this.grade_school = "";
-    },
-    clearCorK() {
-      this.CorK = "";
-    },
-    clearStaff() {
-      this.staff_name = "";
     },
 
   },
