@@ -9,7 +9,10 @@
           <v-col cols="12" md="8">
             <v-card>
               <v-card-title> PDFファイル アップロード</v-card-title>
-              <UploadList :downloadLink="downloadURL"></UploadList>
+              <UploadList
+                @changeDLLink="setDLLink"
+                :downloadLink="downloadURL"
+              ></UploadList>
             </v-card>
           </v-col>
           <v-col cols="12" md="8">
@@ -49,11 +52,13 @@
               <v-card-title> 学年 </v-card-title>
               <v-card-text>
                 <v-select
+
                 v-model="grade_school"
                 :items="grades"
                 :rules="[Rules.required]"
                 placeholder="学年"
                 required></v-select>
+
               </v-card-text>
             </v-card>
           </v-col>
@@ -62,11 +67,13 @@
               <v-card-title> 中間 or 期末 </v-card-title>
               <v-card-text>
                 <v-select
+
                 v-model="CorK"
                 :items="cork"
                 :rules="[Rules.required]"
                 placeholder="中間 or 期末"
                 required></v-select>
+
               </v-card-text>
             </v-card>
           </v-col>
@@ -94,6 +101,8 @@
             </v-col>
           </v-row>
         </v-row>
+
+
         <v-btn 
         :disabled="!valid"
         :loading="loading"
@@ -101,6 +110,7 @@
         large
         @click="upload">
         登録 <v-icon right> mdi-cloud-upload </v-icon>
+
         </v-btn>
       </v-container>
     </v-form>
@@ -114,6 +124,7 @@ import { addDoc, collection, getFirestore } from "@firebase/firestore";
 export default {
   data() {
     return {
+
       valid: true,
       downloadURL: "",
       subject_name: "",
@@ -131,26 +142,52 @@ export default {
   },
   methods: {
     async upload() {
-      if (this.$refs.form.validate()){
-      this.loading = true;
-      const db = await getFirestore();
-      const probColRef = await collection(db, "problems");
-      const probDocRef = await addDoc(probColRef, {
-        name: "pdfname",
-        Subject: this.subject_name,
-        Year: this.year,
-        Grade: this.grade_school,
-        C_or_K: this.CorK,
-        Staff_name: this.staff_name,
-      })
-        .then(() => {
-          this.$refs.form.reset();
-          this.loading = false;
+
+      if (this.$refs.form.validate()) {
+        this.loading = true;
+        const db = await getFirestore();
+        const probColRef = await collection(db, "problems");
+        const probDocRef = await addDoc(probColRef, {
+          name: "pdfname",
+          Subject: this.subject_name,
+          Year: this.year,
+          Grade: this.grade_school,
+          C_or_K: this.CorK,
+          Staff_name: this.staff_name,
         })
-        .catch(() => {
-          this.loading = false;
-        });
-    }},
+          .then(() => {
+            this.clearSubject();
+            this.clearYear();
+            this.clearGrade();
+            this.clearCorK();
+            this.clearStaff();
+            this.loading = false;
+          })
+          .catch(() => {
+            this.loading = false;
+          });
+      }
+    },
+
+    setDLLink(newVal) {
+      this.downloadURL = newVal;
+    },
+
+    clearSubject() {
+      this.subject_name = "";
+    },
+    clearYear() {
+      this.year = "";
+    },
+    clearGrade() {
+      this.grade_school = "";
+    },
+    clearCorK() {
+      this.CorK = "";
+    },
+    clearStaff() {
+      this.staff_name = "";
+    },
 
   },
   components: { UploadList },
