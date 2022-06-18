@@ -13,6 +13,7 @@
         <template v-slot:[`item.name`]="props">
           <v-btn :href="props.item.url" target="_blank" text>{{
             props.item.name
+            <PDFView></PDFView>
             }}</v-btn>
         </template>
       </v-data-table>
