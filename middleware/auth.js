@@ -1,5 +1,3 @@
-export default ({store, redirect}) => {
-  if (!store.getters['isLoggedin']) {
-    return redirect('/login')
-  }
-}
+export default ({ state, store, redirect }) => {
+  console.log("disabled");
+};
