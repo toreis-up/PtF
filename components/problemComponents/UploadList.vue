@@ -59,8 +59,11 @@ export default {
         console.log(file);
         this.problemRef = ref(storage, "problems/" + file.name);
         uploadBytes(this.problemRef, file)
-          .then(() => this.problemRef.fullPath)
-          .then((link) => (this.url = link))
+          .then(() => getDownloadURL(this.problemRef))
+          .then((link) => {
+            this.url = link;
+            this.fname = file.name;
+          })
           .catch((err) => console.log(err));
       }
     },

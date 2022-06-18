@@ -1,7 +1,6 @@
 <template>
   <section>
     <v-container>
-      <v-btn @click="getProblems">取得</v-btn>
       <v-data-table
         :headers="listHeader"
         :items="problems"
@@ -48,9 +47,9 @@ export default {
         return this.selectedRow;
       },
       set(newVal) {
-        this.$emit('onselectRow', newVal)
-      }
-    }
+        this.$emit("onselectRow", newVal);
+      },
+    },
   },
   methods: {
     async getProblems() {
@@ -63,9 +62,9 @@ export default {
       });
     },
     selectRow(row) {
-      console.log('here is lp: ', row)
-      this.rowData = row
-    }
+      console.log("here is lp: ", row);
+      this.rowData = row;
+    },
   },
   mounted() {
     this.getProblems();
