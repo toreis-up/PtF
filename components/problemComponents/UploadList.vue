@@ -5,7 +5,10 @@
     placeholder="PDFをアップロード"
     outlined
     @change="onFileUpload"
-    clearable></v-file-input>
+    clear-icon="mdi-close-circle"
+    clearable
+    :rules="[v => !!v || 'PDFファイルは必須です。']"
+    required></v-file-input>
   </section>
 </template>
 
