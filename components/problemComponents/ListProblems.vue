@@ -5,6 +5,7 @@
       <v-data-table
         :headers="listHeader"
         :items="problems"
+        @click:row="selectRow"
         no-data-text="データがありません。"
       >
         <template v-slot:[`item.name`]="props">
@@ -27,6 +28,7 @@ import {
   query,
 } from "firebase/firestore";
 export default {
+  props: ["selectedRow"],
   data() {
     return {
       listHeader: [
@@ -40,6 +42,16 @@ export default {
       problems: [],
     };
   },
+  computed: {
+    rowData: {
+      get() {
+        return this.selectedRow;
+      },
+      set(newVal) {
+        this.$emit('onselectRow', newVal)
+      }
+    }
+  },
   methods: {
     async getProblems() {
       const db = await getFirestore();
@@ -50,6 +62,10 @@ export default {
         else this.problems.push(doc.data());
       });
     },
+    selectRow(row) {
+      console.log('here is lp: ', row)
+      this.rowData = row
+    }
   },
   mounted() {
     this.getProblems();
