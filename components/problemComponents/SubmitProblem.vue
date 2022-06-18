@@ -57,6 +57,7 @@
                 :items="grades"
                 :rules="[Rules.required]"
                 placeholder="学年"
+                outlined
                 required></v-select>
 
               </v-card-text>
@@ -72,6 +73,7 @@
                 :items="cork"
                 :rules="[Rules.required]"
                 placeholder="中間 or 期末"
+                outlined
                 required></v-select>
 
               </v-card-text>
