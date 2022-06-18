@@ -6,7 +6,6 @@
           <vue-pdf :src="pdfUrl"></vue-pdf>
         </v-col>
       </v-row>
-
     </v-container>
   </div>
 </template>
