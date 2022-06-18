@@ -24,7 +24,6 @@
                   required
                   clear-icon="mdi-close-circle"
                   clearable
-                  @click:clear="clearSubject"
                 ></v-text-field>
               </v-card-text>
             </v-card>
@@ -41,7 +40,6 @@
                   required
                   clear-icon="mdi-close-circle"
                   clearable
-                  @click:clear="clearYear"
                 ></v-text-field>
               </v-card-text>
             </v-card>
@@ -84,7 +82,6 @@
                   required
                   clear-icon="mdi-close-circle"
                   clearable
-                  @click:clear="clearStaff"
                 ></v-text-field>
               </v-card-text>
             </v-card>
@@ -147,11 +144,7 @@ export default {
         Staff_name: this.staff_name,
       })
         .then(() => {
-          this.clearSubject();
-          this.clearYear();
-          this.clearGrade();
-          this.clearCorK();
-          this.clearStaff();
+          this.$refs.form.reset();
           this.loading = false;
         })
         .catch(() => {
@@ -159,21 +152,6 @@ export default {
         });
     }},
 
-    clearSubject() {
-      this.subject_name = "";
-    },
-    clearYear() {
-      this.year = "";
-    },
-    clearGrade() {
-      this.grade_school = "";
-    },
-    clearCorK() {
-      this.CorK = "";
-    },
-    clearStaff() {
-      this.staff_name = "";
-    },
   },
   components: { UploadList },
 };
