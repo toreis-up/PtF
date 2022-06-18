@@ -6,6 +6,7 @@
         :items="problems"
         @click:row="selectRow"
         no-data-text="データがありません。"
+        :loading="load"
       >
         <template v-slot:[`item.name`]="props">
           <v-btn :href="props.item.url" target="_blank" text>{{
@@ -30,6 +31,7 @@ export default {
   props: ["selectedRow"],
   data() {
     return {
+      load: true,
       listHeader: [
         { text: "pdf名", value: "name" },
         { text: "教科名", value: "Subject" },
@@ -60,6 +62,7 @@ export default {
         if (this.problems.includes(doc.data()) === true);
         else this.problems.push(doc.data());
       });
+      this.load = false;
     },
     selectRow(row) {
       console.log("here is lp: ", row);

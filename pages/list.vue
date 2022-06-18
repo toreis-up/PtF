@@ -7,7 +7,7 @@
             @onselectRow="changeRow"
             :selectedRow="selectedProblem"
         /></v-col>
-        <v-col v-if="!selectedProblem"
+        <v-col v-if="!!selectedProblem"
           ><PDFView :selectedRow="selectedProblem" /></v-col
       ></v-row>
     </v-container>
@@ -22,7 +22,7 @@ export default {
   components: { ListProblems, PDFView },
   data() {
     return {
-      selectedProblem: {},
+      selectedProblem: null,
     };
   },
   methods: {

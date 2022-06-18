@@ -36,7 +36,7 @@ export default Vue.extend({
     link: {
       get() {
         console.log(this.selectedRow);
-        if (this.selectedRow === undefined) {
+        if (this.selectedRow === undefined || this.selectedRow === null) {
           return null;
         } else {
           console.log(this.selectedRow.url);
