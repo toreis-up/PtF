@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@nuxtjs/firebase": "^8.2.2",
+    "@nuxtjs/proxy": "^2.1.0",
     "@nuxtjs/pwa": "^3.3.5",
     "core-js": "^3.19.3",
     "firebase": "^9.8.3",

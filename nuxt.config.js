@@ -52,7 +52,18 @@ export default {
         },
       },
     ],
+    "@nuxtjs/proxy",
   ],
+
+  proxy: {
+    "/api/": {
+      target:
+        "https://firebasestorage.googleapis.com/v0/b/past2future-2b55f.appspot.com/o/",
+      pathRewrite: {
+        "^/api/": "/",
+      },
+    },
+  },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
