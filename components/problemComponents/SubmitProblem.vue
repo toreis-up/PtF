@@ -1,6 +1,9 @@
 <template>
   <section>
-    <v-form>
+    <v-form
+    ref="form"
+    v-model="valid"
+    lazy-validation>
       <v-container>
         <v-row>
           <v-col cols="12" md="8">
@@ -17,6 +20,8 @@
                   v-model="subject_name"
                   placeholder="例) 基礎数学Ⅰ"
                   outlined
+                  :rules="[Rules.required]"
+                  required
                   clear-icon="mdi-close-circle"
                   clearable
                   @click:clear="clearSubject"
@@ -32,6 +37,8 @@
                   v-model="year"
                   placeholder="例) 令和4年度"
                   outlined
+                  :rules="[Rules.required]"
+                  required
                   clear-icon="mdi-close-circle"
                   clearable
                   @click:clear="clearYear"
@@ -43,14 +50,12 @@
             <v-card>
               <v-card-title> 学年 </v-card-title>
               <v-card-text>
-                <v-radio-group row v-model="grade_school">
-                  <v-radio
-                    v-for="gra in grade"
-                    :key="gra.name"
-                    :label="gra.name"
-                    :value="gra.val"
-                  ></v-radio>
-                </v-radio-group>
+                <v-select
+                v-model="grade_school"
+                :items="grades"
+                :rules="[Rules.required]"
+                placeholder="学年"
+                required></v-select>
               </v-card-text>
             </v-card>
           </v-col>
@@ -58,14 +63,12 @@
             <v-card>
               <v-card-title> 中間 or 期末 </v-card-title>
               <v-card-text>
-                <v-radio-group row v-model="CorK">
-                  <v-radio
-                    v-for="btn in buttons"
-                    :key="btn.name"
-                    :label="btn.name"
-                    :value="btn.val"
-                  ></v-radio>
-                </v-radio-group>
+                <v-select
+                v-model="CorK"
+                :items="cork"
+                :rules="[Rules.required]"
+                placeholder="中間 or 期末"
+                required></v-select>
               </v-card-text>
             </v-card>
           </v-col>
@@ -77,6 +80,8 @@
                   v-model="staff_name"
                   placeholder="例) 高専太郎"
                   outlined
+                  :rules="[Rules.required]"
+                  required
                   clear-icon="mdi-close-circle"
                   clearable
                   @click:clear="clearStaff"
@@ -93,10 +98,10 @@
           </v-row>
         </v-row>
         <v-btn 
-        :disabled="loading"
+        :disabled="!valid"
         :loading="loading"
+        color="info"
         large
-        outlined
         @click="upload">
         登録 <v-icon right> mdi-cloud-upload </v-icon>
         </v-btn>
@@ -108,31 +113,28 @@
 <script>
 import UploadList from "./UploadList.vue";
 import { addDoc, collection, getFirestore } from "@firebase/firestore";
+
 export default {
   data() {
     return {
+      valid: true,
       downloadURL: "",
       subject_name: "",
       year: "",
-      grade_school: 1,
-      grade: [
-        { name: "1年", val: "1" },
-        { name: "2年", val: "2" },
-        { name: "3年", val: "3" },
-        { name: "4年", val: "4" },
-        { name: "5年", val: "5" },
-      ],
+      grade_school: "",
+      grades: ['1年', '2年', '3年', '4年', '5年'],
       staff_name: "",
-      CorK: 1,
-      buttons: [
-        { name: "中間", val: "chukan" },
-        { name: "期末", val: "kimatsu" },
-      ],
+      CorK: "",
+      cork: ['中間', '期末'],
       loading: false,
+      Rules: {
+        required: v => !!v || '入力は必須です。',
+      },
     };
   },
   methods: {
     async upload() {
+      if (this.$refs.form.validate()){
       this.loading = true;
       const db = await getFirestore();
       const probColRef = await collection(db, "problems");
@@ -155,7 +157,7 @@ export default {
         .catch(() => {
           this.loading = false;
         });
-    },
+    }},
 
     clearSubject() {
       this.subject_name = "";
