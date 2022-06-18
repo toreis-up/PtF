@@ -104,7 +104,7 @@
 
 
         <v-btn 
-        :disabled="!valid"
+        :disabled="!valid && loading"
         :loading="loading"
         color="info"
         large
