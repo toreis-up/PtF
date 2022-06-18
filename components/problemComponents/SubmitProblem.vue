@@ -157,6 +157,9 @@ export default {
           })
           .catch(() => {
             this.loading = false;
+          })
+          .then(() => {
+            this.$router.push("/list");
           });
       }
     },
