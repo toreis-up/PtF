@@ -1,10 +1,17 @@
 <template>
   <section>
     <v-container>
-      <v-btn @click="getProblems">取得</v-btn>
-      <v-data-table :headers="listHeader" :items="problems" no-data-text="データがありません。">
+      <v-data-table
+        :headers="listHeader"
+        :items="problems"
+        @click:row="selectRow"
+        no-data-text="データがありません。"
+        :loading="load"
+      >
         <template v-slot:[`item.name`]="props">
-          <v-btn :href=props.item.url target="_blank" text>{{props.item.name}}</v-btn>
+          <v-btn :href="props.item.url" target="_blank" text>{{
+            props.item.name
+          }}</v-btn>
         </template>
       </v-data-table>
     </v-container>
@@ -12,33 +19,64 @@
 </template>
 
 <script>
-import {getFirestore, collection, doc, getDoc, getDocs, query} from 'firebase/firestore';
+import {
+  getFirestore,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+} from "firebase/firestore";
 export default {
-data() {
-  return {
-    listHeader: [
-      {text: "pdf名", value: "name"},
-      {text: "担当教員", value: "teacher"},
-      {text: "学年", value: "grade"},
-      {text: "年度", value: "year"}
-    ],
-    problems: []
-  }
-},
-methods: {
-  async getProblems () {
-    const db = await getFirestore();
-    const probColRef = collection(db, "problems");
-    const querySnapshot = await getDocs(probColRef);
-    querySnapshot.forEach((doc) => {
-      if (this.problems.includes(doc.data()) === true);
-      else this.problems.push(doc.data());
-    })
-  }
-},
-}
+  props: ["selectedRow"],
+  data() {
+    return {
+      load: true,
+      listHeader: [
+        { text: "pdf名", value: "name" },
+        { text: "教科名", value: "Subject" },
+        { text: "担当教員", value: "Staff_name" },
+        { text: "学年", value: "Grade" },
+        { text: "年度", value: "Year" },
+        { text: "開催期", value: "C_or_K" },
+      ],
+      problems: [],
+    };
+  },
+  computed: {
+    rowData: {
+      get() {
+        return this.selectedRow;
+      },
+      set(newVal) {
+        this.$emit("onselectRow", newVal);
+      },
+    },
+  },
+  methods: {
+    async getProblems() {
+      const db = await getFirestore();
+      const probColRef = collection(db, "problems");
+      const querySnapshot = await getDocs(probColRef);
+      querySnapshot.forEach((doc) => {
+        if (this.problems.includes(doc.data()) === true);
+        else this.problems.push(doc.data());
+      });
+      this.load = false;
+    },
+    selectRow(row) {
+      console.log("here is lp: ", row);
+      this.rowData = row;
+    },
+  },
+  mounted() {
+    this.getProblems();
+  },
+  mounted() {
+    this.getProblems();
+  },
+};
 </script>
 
 <style>
-
 </style>

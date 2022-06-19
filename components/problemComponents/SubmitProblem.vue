@@ -1,74 +1,188 @@
 <template>
   <section>
-    <v-form>
-      <v-container>
+    <v-form ref="form" v-model="valid" lazy-validation>
+      <v-container fluid>
         <v-row>
-          <v-col cols="12" md="4">
-            <v-card>
-              <v-card-subtitle> 教科 </v-card-subtitle>
-              <v-card-text>
-                <v-text-field v-model="subject_name"></v-text-field>
-              </v-card-text>
-            </v-card>
-          </v-col>
-          <v-col cols="12" md="4">
-            <v-card>
-              <v-card-subtitle> 年度 </v-card-subtitle>
-              <v-card-text>
-                <v-text-field v-model="year"></v-text-field>
-              </v-card-text>
-            </v-card>
-          </v-col>
-          <v-col cols="12" md="4">
-            <v-card>
-              <v-card-subtitle> 学年 </v-card-subtitle>
-              <v-card-text>
-               <v-text-field v-model="grade"></v-text-field>
-              </v-card-text>
-            </v-card>
-          </v-col>
-          <v-col cols="12" md="4">
-            <v-card>
-              <v-card-subtitle> 中間 or 期末 </v-card-subtitle>
-              <v-card-text>
-                <v-radio-group v-model="CorK">
-                  <v-radio v-for="btn in buttons" :key="btn.name" :label="btn.name" :value="btn.val"></v-radio>
-                </v-radio-group>
-              </v-card-text>
-            </v-card>
-          </v-col>
-          <v-col cols="12" md="4">
-            <v-card>
-              <v-card-subtitle> 教員名 </v-card-subtitle>
-              <v-card-text>
-                <v-text-field v-model="staff_name"></v-text-field>
-              </v-card-text>
-            </v-card>
+          <v-col cols="12">
+            <v-row>
+              <v-col cols="12">
+                <v-card>
+                  <v-card-title> PDFファイル アップロード</v-card-title>
+                  <UploadList
+                    @changeDLLink="setDLLink"
+                    @changeFilename="setFilename"
+                    :downloadLink="downloadURL"
+                    :filename="pdfname"
+                  ></UploadList>
+                </v-card>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12">
+                <v-card>
+                  <v-card-title> 教科 </v-card-title>
+                  <v-card-text>
+                    <v-text-field
+                      v-model="subject_name"
+                      placeholder="例) 基礎数学Ⅰ"
+                      outlined
+                      :rules="[Rules.required]"
+                      required
+                      clear-icon="mdi-close-circle"
+                      clearable
+                    ></v-text-field>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12">
+                <v-card>
+                  <v-card-title> 年度 </v-card-title>
+                  <v-card-text>
+                    <v-text-field
+                      v-model="year"
+                      placeholder="例) 令和4年度"
+                      outlined
+                      :rules="[Rules.required]"
+                      required
+                      clear-icon="mdi-close-circle"
+                      clearable
+                    ></v-text-field>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12">
+                <v-card>
+                  <v-card-title> 学年 </v-card-title>
+                  <v-card-text>
+                    <v-select
+                      v-model="grade_school"
+                      :items="grades"
+                      :rules="[Rules.required]"
+                      placeholder="学年"
+                      required
+                    ></v-select>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12">
+                <v-card>
+                  <v-card-title> 中間 or 期末 </v-card-title>
+                  <v-card-text>
+                    <v-select
+                      v-model="CorK"
+                      :items="cork"
+                      :rules="[Rules.required]"
+                      placeholder="中間 or 期末"
+                      required
+                    ></v-select>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12">
+                <v-card>
+                  <v-card-title> 教員名 </v-card-title>
+                  <v-card-text>
+                    <v-text-field
+                      v-model="staff_name"
+                      placeholder="例) 高専太郎"
+                      outlined
+                      :rules="[Rules.required]"
+                      required
+                      clear-icon="mdi-close-circle"
+                      clearable
+                    ></v-text-field>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+            </v-row>
           </v-col>
         </v-row>
+
+        <v-btn
+          :disabled="!valid || loading"
+          :loading="loading"
+          color="info"
+          large
+          @click="upload"
+        >
+          登録 <v-icon right> mdi-cloud-upload </v-icon>
+        </v-btn>
       </v-container>
     </v-form>
   </section>
 </template>
 
 <script>
+import UploadList from "./UploadList.vue";
+import { addDoc, collection, getFirestore } from "@firebase/firestore";
+
 export default {
-    data(){
-      return {
+  data() {
+    return {
+      valid: true,
+      downloadURL: "",
       subject_name: "",
       year: "",
-      grade: "",
+      grade_school: "",
+      grades: ["1年", "2年", "3年", "4年", "5年"],
       staff_name: "",
-      CorK: 1,
-      buttons:[
-        {name: "中間", val: "chukan"},
-        {name: "期末", val: "kimatsu"}
-      ]
+      pdfname: "",
+      CorK: "",
+      cork: ["中間", "期末"],
+      loading: false,
+      Rules: {
+        required: (v) => !!v || "入力は必須です。",
+      },
+    };
+  },
+  methods: {
+    async upload() {
+      if (this.$refs.form.validate()) {
+        this.loading = true;
+        const db = await getFirestore();
+        const probColRef = await collection(db, "problems");
+        const probDocRef = await addDoc(probColRef, {
+          name: this.pdfname,
+          Subject: this.subject_name,
+          Year: this.year,
+          Grade: this.grade_school,
+          C_or_K: this.CorK,
+          Staff_name: this.staff_name,
+          url: this.downloadURL,
+        })
+          .then(() => {
+            this.$refs.form.reset();
+            this.loading = false;
+          })
+          .catch(() => {
+            this.loading = false;
+          })
+          .then(() => {
+            this.$router.push("/list");
+          });
       }
-    }
-}
+    },
+
+    setDLLink(newVal) {
+      this.downloadURL = newVal;
+      this.$emit("changeLink", newVal);
+    },
+
+    setFilename(newVal) {
+      this.pdfname = newVal;
+    },
+  },
+  components: { UploadList },
+};
 </script>
 
 <style>
-
 </style>
