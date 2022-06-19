@@ -2,12 +2,12 @@
   <div>
     <v-container>
       <v-row
-        ><v-col
+        ><v-col lg="6" md="12"
           ><ListProblems
             @onselectRow="changeRow"
             :selectedRow="selectedProblem"
         /></v-col>
-        <v-col v-show="!!selectedProblem"
+        <v-col v-show="!!selectedProblem" lg="6" md="12"
           ><PDFView :selectedRow="selectedProblem" /></v-col
       ></v-row>
     </v-container>
