@@ -7,7 +7,7 @@
             @onselectRow="changeRow"
             :selectedRow="selectedProblem"
         /></v-col>
-        <v-col v-if="!!selectedProblem"
+        <v-col v-show="!!selectedProblem"
           ><PDFView :selectedRow="selectedProblem" /></v-col
       ></v-row>
     </v-container>
