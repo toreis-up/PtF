@@ -3,11 +3,13 @@
     <v-container>
       <v-row>
         <v-col cols="12">
-          <vue-pdf
-            :src="link"
-            :page="currentPage"
-            @num-pages="totalPage = $event"
-          ></vue-pdf>
+          <client-only>
+            <vue-pdf
+              :src="link"
+              :page="currentPage"
+              @num-pages="totalPage = $event"
+            ></vue-pdf
+          ></client-only>
         </v-col>
       </v-row>
       <v-row justify="center">
